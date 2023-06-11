@@ -25,4 +25,3 @@ public class CategoriaNecessidade {
      this.descricao = descricao;
  }
 }
-

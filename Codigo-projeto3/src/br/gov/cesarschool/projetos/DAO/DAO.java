@@ -4,9 +4,13 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.ArrayList;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import br.gov.cesarschool.projetos.doador.Doador;
 import br.gov.cesarschool.projetos.doador.ItemDoacao;
+import br.gov.cesarschool.projetos.necessidade.Necessidade;
 import br.gov.cesarschool.projetos.ong.ONG;
 
 public class DAO {
@@ -52,8 +56,6 @@ public class DAO {
             writer.newLine();
             writer.write("ID: " + ong.getId());
             writer.newLine();
-            writer.write("Senha: " + ong.getSenha());
-            writer.newLine();
             writer.write("CNPJ: " + ong.getCNPJ());
             writer.newLine();
             writer.write("Descrição: " + ong.getDescricao());
@@ -86,5 +88,47 @@ public class DAO {
             return false;
         }
     }
+    
+    public void incluirNecessidade(ONG ong, Necessidade necessidade) {
+        String nomeArquivo = diretorioBase + ong.getId() + ".txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo, true))) {
+        	writer.newLine();
+            writer.write("Categoria: " + necessidade.getCategoria());
+            writer.newLine();
+            writer.write("Descrição: " + necessidade.getDescricao());
+            writer.newLine();
+            writer.write("Quantidade: " + necessidade.getQuantidade());
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public String[] lerNecessidades(ONG ong) {
+        String nomeArquivo = diretorioBase + ong.getId() + ".txt";
+        List<String> necessidadesList = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(nomeArquivo))) {
+            String line;
+            boolean readNecessidades = false;
+
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("Categoria:")) {
+                    readNecessidades = true;
+                } else if (readNecessidades && line.startsWith("Quantidade:")) {
+                    String quantidade = line.substring(line.indexOf(":") + 1).trim();
+                    necessidadesList.add(quantidade);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String[] necessidadesArray = new String[necessidadesList.size()];
+        return necessidadesList.toArray(necessidadesArray);
+    }
+
+
+    
   }
 

@@ -1,12 +1,11 @@
 package br.gov.cesarschoo.projetos.mediator;
 
-import java.util.ArrayList;
-import java.util.List;
 
-import br.gov.cesarschool.projetos.DAO.DAO;
+import br.gov.cesarschool.projetos.DAO.*;
 import br.gov.cesarschool.projetos.doador.Doador;
 import br.gov.cesarschool.projetos.doador.ItemDoacao;
 import br.gov.cesarschool.projetos.ong.ONG;
+import br.gov.cesarschool.projetos.util.ValidadorCNPJ;
 import br.gov.cesarschool.projetos.util.ValidadorCPF;
 
 public class Mediator {
@@ -75,6 +74,10 @@ public class Mediator {
             System.out.println("CNPJ da ONG inválido.");
             return false;
         }
+        if (!ValidadorCNPJ.validarCNPJ(ong.getCNPJ())) {
+            System.out.println("CPF do doador inválido.");
+            return false;
+        }
 
         if (ong.getDescricao() == null || ong.getDescricao().isEmpty()) {
             System.out.println("Descrição da ONG inválida.");
@@ -91,6 +94,24 @@ public class Mediator {
 
         return true;
     }
+    
+    
+    
+    // em andamento
+    private boolean validarInformacoesDoacao(ItemDoacao doacao) {
+    	if(doacao.getItem() == null) {
+    		return false;
+    	}
+    	if(doacao.getQuantidade() <= 0) {
+    		return false;
+    	}
+
+        return true;
+    }
+    
+    
+    
+    
 
     public boolean inserirDoador(Doador doador) {
         if (validarInformacoesDoador(doador) != false) {
@@ -102,13 +123,19 @@ public class Mediator {
         	return false;
         }
     }
-
-    private List<String> converterParaString(List<ItemDoacao> doacoes) {
-        List<String> doacoesString = new ArrayList<>();
-        for (ItemDoacao item : doacoes) {
-            String doacaoString = item.getItem() + " - " + item.getQuantidade();
-            doacoesString.add(doacaoString);
+    
+    public boolean inserirONG(ONG ong) {
+        if (validarInformacoesONG(ong) != false) {
+        	arquivoDAO.incluirONG(ong);
+        	return true;
         }
-        return doacoesString;
+        else {
+        	System.out.println("Erro ao incluir ONG");
+        	return false;
+        }
     }
+    
+    
+
+
 }
