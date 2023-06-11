@@ -1,9 +1,12 @@
+package br.gov.cesarschool.projetos.DAO;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
 import br.gov.cesarschool.projetos.doador.Doador;
+import br.gov.cesarschool.projetos.doador.ItemDoacao;
 import br.gov.cesarschool.projetos.ong.ONG;
 
 public class DAO {
@@ -82,5 +85,6 @@ public class DAO {
             e.printStackTrace();
             return false;
         }
-    }}
-}
+    }
+  }
+

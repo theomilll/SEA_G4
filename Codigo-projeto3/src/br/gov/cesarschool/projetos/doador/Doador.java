@@ -1,19 +1,22 @@
 package br.gov.cesarschool.projetos.doador;
 
+import br.gov.cesarschool.projetos.endereco.Endereco;
 import br.gov.cesarschool.projetos.usuario.Usuario;
 
 public class Doador extends Usuario{
 	private String CPF;
 	private String metodoDePagamento;
 	
-	public Doador(String nome, String email, String telefone, int id, String senha) {
-		super(nome, email, telefone, id, senha);
+
+
+	public Doador(String nome, String email, String telefone, int id, String senha, Endereco endereco, String cPF,
+			String metodoDePagamento) {
+		super(nome, email, telefone, id, senha, endereco);
+		CPF = cPF;
+		this.metodoDePagamento = metodoDePagamento;
 	}
 	public String getCPF() {
 		return CPF;
-	}
-	public void setCPF(String cPF) {
-		CPF = cPF;
 	}
 	public String getMetodoDePagamento() {
 		return metodoDePagamento;
@@ -22,8 +25,9 @@ public class Doador extends Usuario{
 		this.metodoDePagamento = metodoDePagamento;
 	}
 	
-	public void fazerDoacao(Doacao doacao) {
-		System.out.println("Doação realizada com sucesso");
+	public void fazerDoacao(ItemDoacao doacao) {
+		
+		System.out.println("Doação realizada");
 		// atualizar na planilha
 	}
 	
