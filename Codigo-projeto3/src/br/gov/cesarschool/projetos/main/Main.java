@@ -43,6 +43,9 @@ public class Main {
                     ong = registrarONG(scanner, mediator);
                     break;
                 case 3:
+            		System.out.println("Insira o CNPJ da ONG para cadastrar a necessidade: ");
+            		String cnpjDoacao1 = scanner.nextLine();
+            		ong = arquivoDAO.buscarONGPorCNPJ(cnpjDoacao1);
                     if (ong != null) {
                         registrarNecessidadeONG(scanner, mediator, ong);
                     } else {

@@ -217,7 +217,6 @@ public class DAO {
         File arquivo = new File(nomeArquivo);
 
         if (!arquivo.exists()) {
-        	System.out.print("Arquivo nao existe");
             return null;
         }
 

@@ -13,3 +13,6 @@ Quantidade: 1
 
 Categoria: Cachorro
 Quantidade: 50
+
+Categoria: Catuaba
+Quantidade: 5
