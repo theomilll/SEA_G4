@@ -6,7 +6,6 @@ import br.gov.cesarschool.projetos.usuario.Usuario;
 
 public class Doador extends Usuario{
 	private String CPF;
-	private String metodoDePagamento;
 	
 
 
@@ -14,16 +13,13 @@ public class Doador extends Usuario{
 			String metodoDePagamento) {
 		super(nome, email, telefone, id, endereco);
 		CPF = cPF;
-		this.metodoDePagamento = metodoDePagamento;
 	}
 	public String getCPF() {
 		return CPF;
 	}
-	public String getMetodoDePagamento() {
-		return metodoDePagamento;
-	}
-	public void setMetodoDePagamento(String metodoDePagamento) {
-		this.metodoDePagamento = metodoDePagamento;
+	
+	public void setCPF(String cPF) {
+		CPF = cPF;
 	}
 	
 

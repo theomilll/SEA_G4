@@ -46,10 +46,6 @@ public class Mediator {
             return false;
         }
 
-        if (doador.getMetodoDePagamento() == null || doador.getMetodoDePagamento().isEmpty()) {
-            System.out.println("Método de pagamento do doador inválido.");
-            return false;
-        }
 
 
         return true;
@@ -103,6 +99,7 @@ public class Mediator {
               System.out.println("Id do Usuário inválido.");
               return false;
           }
+          System.out.println("Usuário registrado com sucesso!");
           return true;
     }
     
@@ -172,6 +169,16 @@ public class Mediator {
         }
     }
     
+    public boolean inserirDoacao(ItemDoacao doacao, ONG ong, Doador doador) {
+        if (validarInformacoesDoacao(doacao, ong)) {
+            arquivoDAO.incluirDoacao(ong, doacao, doador);
+            return true;
+        } else {
+            System.out.println("Erro ao incluir Doacao");
+            return false;
+        }
+    }
+
     
     public void inserirNecessidade(ONG ong, Necessidade necessidade) {
         arquivoDAO.incluirNecessidade(ong, necessidade);

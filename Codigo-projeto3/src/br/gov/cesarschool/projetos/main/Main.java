@@ -6,6 +6,8 @@ import br.gov.cesarschool.projetos.endereco.Endereco;
 import br.gov.cesarschool.projetos.doador.Doador;
 import br.gov.cesarschool.projetos.necessidade.*;
 import br.gov.cesarschoo.projetos.mediator.Mediator;
+import br.gov.cesarschool.projetos.DAO.*;
+import br.gov.cesarschool.projetos.util.*;
 
 import java.util.Scanner;
 
@@ -13,6 +15,8 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Mediator mediator = Mediator.getInstance();
+        DAO arquivoDAO = new DAO("SEA_");
+        
 
         Doador usuario = null;
         ONG ong = null;
@@ -24,6 +28,7 @@ public class Main {
             System.out.println("2. Registrar ONG");
             System.out.println("3. Registrar Necessidade da ONG");
             System.out.println("4. Fazer Doações");
+            System.out.println("5. Entrar com CPF");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
@@ -37,18 +42,31 @@ public class Main {
                     ong = registrarONG(scanner, mediator);
                     break;
                 case 3:
-                    if (usuario != null && ong != null) {
+                    if (ong != null) {
                         registrarNecessidadeONG(scanner, mediator, ong);
+                    } else {
+                        System.out.println("É necessário escolher uma ONG primeiro, cadastre uma ou use o CNPJ!");
+                    }
+                    break;
+                case 4:
+                    if ( ong != null) {
+                        fazerDoacoes(scanner, mediator, ong, usuario);
                     } else {
                         System.out.println("Por favor, registre um usuário e uma ONG primeiro!");
                     }
                     break;
-                case 4:
-                    if (usuario != null && ong != null) {
-                        fazerDoacoes(scanner, mediator, ong);
-                    } else {
-                        System.out.println("Por favor, registre um usuário e uma ONG primeiro!");
-                    }
+                case 5:
+                	System.out.print("Insira o CPF: ");
+                	String cpfComp= scanner.nextLine();
+                	Doador doador1 = arquivoDAO.buscarDoadorPorCPF(cpfComp);
+                     if(doador1 == null) {
+                    	 System.out.println("Usuário não possui cadastro");
+                    	 break;
+                     }
+                     else {
+                    	 mediator.inserirDoador(doador1);
+                     }
+                        
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -108,7 +126,7 @@ public class Main {
         Doador usuario = new Doador(nome, email, numeroTelefone, id, endereco, cpf, formaPagamento);
         mediator.inserirDoador(usuario);
 
-        System.out.println("Usuário registrado com sucesso!");
+
         return usuario;
     }
 
@@ -184,7 +202,7 @@ public class Main {
         System.out.println("Necessidade da ONG registrada com sucesso!");
     }
 
-    private static void fazerDoacoes(Scanner scanner, Mediator mediator, ONG ong) {
+    private static void fazerDoacoes(Scanner scanner, Mediator mediator, ONG ong, Doador usuario) {
         System.out.println("Fazer Doações");
         System.out.print("Nome do item de doação: ");
         String nomeItem = scanner.nextLine();
@@ -194,7 +212,12 @@ public class Main {
         scanner.nextLine(); // Limpar o buffer
 
         ItemDoacao doacao = new ItemDoacao(nomeItem, quantidade);
-        mediator.inserirDoacao(doacao, ong);
+        if(usuario == null) {
+        	mediator.inserirDoacao(doacao, ong);
+        }
+        else {
+        	mediator.inserirDoacao(doacao, ong, usuario);
+        }
 
         
     }

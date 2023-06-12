@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import br.gov.cesarschool.projetos.doador.Doador;
 import br.gov.cesarschool.projetos.doador.ItemDoacao;
+import br.gov.cesarschool.projetos.endereco.Endereco;
 import br.gov.cesarschool.projetos.necessidade.Necessidade;
 import br.gov.cesarschool.projetos.ong.ONG;
 
@@ -35,8 +36,6 @@ public class DAO {
             writer.write("ID: " + doador.getId());
             writer.newLine();
             writer.write("CPF: " + doador.getCPF());
-            writer.newLine();
-            writer.write("Método de Pagamento: " + doador.getMetodoDePagamento());
             writer.newLine();
 
             return true;
@@ -91,6 +90,27 @@ public class DAO {
             return false;
         }
     }
+    
+    public boolean incluirDoacao(ONG ong, ItemDoacao itemDoacao, Doador doador) {
+        String nomeArquivo = diretorioBase + ong.getCNPJ() + "_doacoes.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo, true))) {
+            writer.write("Doação:");
+            writer.newLine();
+            writer.write("Item: " + itemDoacao.getItem());
+            writer.newLine();
+            writer.write("Quantidade: " + itemDoacao.getQuantidade());
+            writer.newLine();
+            writer.write("Nome do doador: " + doador.getNome());
+            writer.newLine();
+            writer.newLine();
+
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     
     public void incluirNecessidade(ONG ong, Necessidade necessidade) {
         String nomeArquivo = diretorioBase + ong.getCNPJ() + ".txt";
@@ -194,7 +214,71 @@ public class DAO {
             e.printStackTrace();
         }
     }
+    
+    public Doador buscarDoadorPorCPF(String cpf) {
+        String nomeArquivo = diretorioBase + cpf + ".txt";
+        File arquivo = new File(nomeArquivo);
 
+        if (!arquivo.exists()) {
+        	System.out.print("Arquivo nao existe");
+            return null;
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
+            String nome = null;
+            String email = null;
+            String telefone = null;
+            int id = 0;
+            Endereco endereco = null;
+            String metodoDePagamento = null;
+
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                String[] partes = linha.split(":");
+                if (partes.length == 2) {
+                    String chave = partes[0].trim();
+                    String valor = partes[1].trim();
+
+                    switch (chave) {
+                        case "Nome":
+                            nome = valor;
+                            break;
+                        case "Email":
+                            email = valor;
+                            break;
+                        case "Telefone":
+                            telefone = valor;
+                            break;
+                        case "ID":
+                            id = Integer.parseInt(valor);
+                            break;
+                        case "Endereco":
+                            // Lógica para obter o objeto Endereco a partir do valor
+                            break;
+                        case "CPF":
+                            // Verificar se o CPF do arquivo é igual ao CPF buscado
+                            if (valor.equals(cpf)) {
+                                return new Doador(nome, email, telefone, id, endereco, cpf, metodoDePagamento);
+                            } else {
+                                // CPF não corresponde, interrompe a leitura do arquivo
+                            	System.out.print("CPF não corresponde");
+                                return null;
+                            }
+                        case "Método de Pagamento":
+                            metodoDePagamento = valor;
+                            break;
+                        default:
+                            // Ignorar outras chaves não reconhecidas
+                            break;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
     
   }
