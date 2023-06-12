@@ -1,0 +1,9 @@
+Doação:
+Item: Mendigo
+Quantidade: 4
+
+Doação:
+Item: Mendigo
+Quantidade: 10
+Nome do doador: Henrique Leal
+

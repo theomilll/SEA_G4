@@ -215,7 +215,7 @@ public class DAO {
         }
     }
     
-    public Doador buscarDoadorPorCPF(String cpf) {
+    public Doador buscarDoadorPorCPF(String cpf) {		
         String nomeArquivo = diretorioBase + cpf + ".txt";
         File arquivo = new File(nomeArquivo);
 
@@ -253,14 +253,11 @@ public class DAO {
                             id = Integer.parseInt(valor);
                             break;
                         case "Endereco":
-                            // Lógica para obter o objeto Endereco a partir do valor
                             break;
                         case "CPF":
-                            // Verificar se o CPF do arquivo é igual ao CPF buscado
                             if (valor.equals(cpf)) {
                                 return new Doador(nome, email, telefone, id, endereco, cpf, metodoDePagamento);
                             } else {
-                                // CPF não corresponde, interrompe a leitura do arquivo
                             	System.out.print("CPF não corresponde");
                                 return null;
                             }
@@ -279,6 +276,57 @@ public class DAO {
 
         return null;
     }
+    
+    public ONG buscarONGPorCNPJ(String cnpj) {
+        String nomeArquivo = diretorioBase + cnpj + ".txt";
+        File arquivo = new File(nomeArquivo);
+
+        if (arquivo.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
+                String nome = null;
+                String email = null;
+                String telefone = null;
+                int id = 0;
+                Endereco endereco = null;
+                int numeroVoluntarios = 0;
+                Necessidade necessidade = null;
+
+                String linha;
+                while ((linha = reader.readLine()) != null) {
+                    if (linha.startsWith("Nome:")) {
+                        nome = linha.substring(5).trim();
+                    } else if (linha.startsWith("Email:")) {
+                        email = linha.substring(6).trim();
+                    } else if (linha.startsWith("Telefone:")) {
+                        telefone = linha.substring(9).trim();
+                    } else if (linha.startsWith("ID:")) {
+                        id = Integer.parseInt(linha.substring(3).trim());
+                    } else if (linha.startsWith("Endereco:")) {
+                        // Recupere as informações de endereço e construa o objeto Endereco
+                        // Você precisa implementar essa lógica adequadamente
+                        // Exemplo: endereco = new Endereco(...);
+                    } else if (linha.startsWith("NumeroVoluntarios:")) {
+                        numeroVoluntarios = Integer.parseInt(linha.substring(18).trim());
+                    } else if (linha.startsWith("Necessidade:")) {
+                        // Recupere as informações da necessidade e construa o objeto Necessidade
+                        // Você precisa implementar essa lógica adequadamente
+                        // Exemplo: necessidade = new Necessidade(...);
+                    }
+                }
+
+                // Crie o objeto ONG com as informações recuperadas do arquivo
+                ONG ong = new ONG(nome, email, telefone, id, endereco, cnpj,  numeroVoluntarios, necessidade);
+                return ong;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null; // Retorne null se o arquivo não existir ou houver um erro de leitura
+    }
+
+
+
 
     
   }

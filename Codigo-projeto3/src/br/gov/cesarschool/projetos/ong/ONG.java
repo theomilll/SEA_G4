@@ -22,6 +22,14 @@ public class ONG extends Usuario{
 		this.numeroVoluntarios = numeroVoluntarios;
 		this.necessidade = necessidade;
 	}
+	
+	public ONG(String nome, String email, String telefone, int id, Endereco endereco, String cNPJ,
+			int numeroVoluntarios, Necessidade necessidade) {
+		super(nome, email, telefone, id, endereco);
+		CNPJ = cNPJ;
+		this.numeroVoluntarios = numeroVoluntarios;
+		this.necessidade = necessidade;
+	}
 
 	public String getDescricao() {
 		return descricao;

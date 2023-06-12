@@ -29,6 +29,7 @@ public class Main {
             System.out.println("3. Registrar Necessidade da ONG");
             System.out.println("4. Fazer Doações");
             System.out.println("5. Entrar com CPF");
+            System.out.println("6. Entrar com CNPJ");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
@@ -58,16 +59,27 @@ public class Main {
                 case 5:
                 	System.out.print("Insira o CPF: ");
                 	String cpfComp= scanner.nextLine();
-                	Doador doador1 = arquivoDAO.buscarDoadorPorCPF(cpfComp);
-                     if(doador1 == null) {
+                	usuario = arquivoDAO.buscarDoadorPorCPF(cpfComp);
+                     if(usuario == null) {
                     	 System.out.println("Usuário não possui cadastro");
                     	 break;
                      }
                      else {
-                    	 mediator.inserirDoador(doador1);
+                    	 mediator.inserirDoador(usuario);
                      }
                         
                     break;
+                case 6:
+                    System.out.print("Insira o CNPJ: ");
+                    String cnpjComp = scanner.nextLine();
+                    ong = arquivoDAO.buscarONGPorCNPJ(cnpjComp);
+                    if (ong == null) {
+                        System.out.println("ONG não possui cadastro");
+                        break;
+                    } 
+ 
+                    break;
+
                 case 0:
                     System.out.println("Saindo...");
                     break;
