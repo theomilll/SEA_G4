@@ -4,14 +4,12 @@ package br.gov.cesarschoo.projetos.mediator;
 import br.gov.cesarschool.projetos.DAO.*;
 import br.gov.cesarschool.projetos.doador.Doador;
 import br.gov.cesarschool.projetos.doador.ItemDoacao;
+import br.gov.cesarschool.projetos.endereco.Endereco;
 import br.gov.cesarschool.projetos.necessidade.*;
 import br.gov.cesarschool.projetos.ong.ONG;
 import br.gov.cesarschool.projetos.usuario.*;
 import br.gov.cesarschool.projetos.util.ValidadorCNPJ;
 import br.gov.cesarschool.projetos.util.ValidadorCPF;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Mediator {
     private static Mediator instance;
@@ -56,6 +54,8 @@ public class Mediator {
 
         return true;
     }
+    
+
 
     private boolean validarInformacoesONG(ONG ong) {
         
@@ -119,17 +119,19 @@ public class Mediator {
 
         // Read needs from the file
         String[] necessidadesArray = arquivoDAO.lerNecessidades(ong);
-
-        // Check if the doacao's item matches any category in the array
-        for (String categoria : necessidadesArray) {
-            if (doacao.getItem().equalsIgnoreCase(categoria)) {
+        Integer[] quantidadesArray = arquivoDAO.lerQuantidades(ong);
+        
+        for (int i = 0; i < necessidadesArray.length; i++) {
+            if (doacao.getItem().equalsIgnoreCase(necessidadesArray[i]) && doacao.getQuantidade() <= quantidadesArray[i]) {
+            	arquivoDAO.atualizarNecessidade(ong, doacao);
                 return true;
             }
         }
 
-        System.out.println("Item da doação não corresponde a nenhuma necessidade.");
+        System.out.println("Item da doação não corresponde a nenhuma necessidade ou quantidade insuficiente.");
         return false;
     }
+
 
 
     
