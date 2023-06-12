@@ -313,8 +313,8 @@ public class DAO {
                 e.printStackTrace();
             }
         }
-        
-        public void exibirNecessidades(ONG ong) {
+ 
+    public void exibirNecessidades(ONG ong) {
         String nomeArquivo = diretorioBase + ong.getCNPJ() + ".txt";
         try (BufferedReader reader = new BufferedReader(new FileReader(nomeArquivo))) {
             String line;
