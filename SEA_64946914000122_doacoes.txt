@@ -1,0 +1,8 @@
+Doação:
+Item: agua
+Quantidade: 49
+
+Doação:
+Item: agua
+Quantidade: 1
+

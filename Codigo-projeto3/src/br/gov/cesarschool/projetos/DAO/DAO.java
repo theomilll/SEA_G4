@@ -157,7 +157,7 @@ public class DAO {
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
             String linha;
             while ((linha = reader.readLine()) != null) {
-                if (linha.equalsIgnoreCase(doacao.getItem())) {
+                if (linha.equalsIgnoreCase("Categoria: " + doacao.getItem())) {
                     String proximaLinha = reader.readLine();
 
                     // Verifica se a próxima linha contém o caractere ":" para identificar o conteúdo
@@ -171,9 +171,11 @@ public class DAO {
                         // Subtrai a quantidade da doação da necessidade
                         int novaQuantidade = quantidadeNecessidade - doacao.getQuantidade();
 
-                        // Atualiza a linha da quantidade no arquivo
-                        linhas.add(linha);
-                        linhas.add("Quantidade: " + novaQuantidade);
+                        if (novaQuantidade > 0) {
+                            // Atualiza a linha da quantidade no arquivo
+                            linhas.add(linha);
+                            linhas.add("Quantidade: " + novaQuantidade);
+                        }
                         continue;
                     }
                 }
