@@ -8,5 +8,8 @@ Número de Voluntários: 34
 
 Necessidades:
 Categoria: Mendigo
-Quantidade: 26
+Quantidade: 1
 
+
+Categoria: Cachorro
+Quantidade: 50

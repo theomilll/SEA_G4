@@ -92,7 +92,7 @@ public class DAO {
     }
     
     public boolean incluirDoacao(ONG ong, ItemDoacao itemDoacao, Doador doador) {
-        String nomeArquivo = diretorioBase + ong.getCNPJ() + "_doacoes.txt";
+        String nomeArquivo = diretorioBase + ong.getCNPJ() + "_DOACOES.txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo, true))) {
             writer.write("Doação:");
             writer.newLine();
@@ -180,19 +180,16 @@ public class DAO {
                 if (linha.equalsIgnoreCase("Categoria: " + doacao.getItem())) {
                     String proximaLinha = reader.readLine();
 
-                    // Verifica se a próxima linha contém o caractere ":" para identificar o conteúdo
                     int indiceSeparador = proximaLinha.indexOf(":");
                     if (indiceSeparador != -1) {
                         String conteudo = proximaLinha.substring(indiceSeparador + 1).trim();
 
-                        // Converte o conteúdo para um número inteiro
                         int quantidadeNecessidade = Integer.parseInt(conteudo);
 
-                        // Subtrai a quantidade da doação da necessidade
                         int novaQuantidade = quantidadeNecessidade - doacao.getQuantidade();
 
                         if (novaQuantidade > 0) {
-                            // Atualiza a linha da quantidade no arquivo
+                          
                             linhas.add(linha);
                             linhas.add("Quantidade: " + novaQuantidade);
                         }
@@ -265,7 +262,7 @@ public class DAO {
                             metodoDePagamento = valor;
                             break;
                         default:
-                            // Ignorar outras chaves não reconhecidas
+ 
                             break;
                     }
                 }
@@ -302,19 +299,15 @@ public class DAO {
                     } else if (linha.startsWith("ID:")) {
                         id = Integer.parseInt(linha.substring(3).trim());
                     } else if (linha.startsWith("Endereco:")) {
-                        // Recupere as informações de endereço e construa o objeto Endereco
-                        // Você precisa implementar essa lógica adequadamente
-                        // Exemplo: endereco = new Endereco(...);
+   
                     } else if (linha.startsWith("NumeroVoluntarios:")) {
                         numeroVoluntarios = Integer.parseInt(linha.substring(18).trim());
                     } else if (linha.startsWith("Necessidade:")) {
-                        // Recupere as informações da necessidade e construa o objeto Necessidade
-                        // Você precisa implementar essa lógica adequadamente
-                        // Exemplo: necessidade = new Necessidade(...);
+     
                     }
                 }
 
-                // Crie o objeto ONG com as informações recuperadas do arquivo
+
                 ONG ong = new ONG(nome, email, telefone, id, endereco, cnpj,  numeroVoluntarios, necessidade);
                 return ong;
             } catch (IOException e) {
@@ -322,7 +315,7 @@ public class DAO {
             }
         }
 
-        return null; // Retorne null se o arquivo não existir ou houver um erro de leitura
+        return null; 
     }
 
 

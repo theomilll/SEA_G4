@@ -50,10 +50,13 @@ public class Main {
                     }
                     break;
                 case 4:
+                		System.out.println("Insira o CNPJ da ONG que irá receber a doação: ");
+                		String cnpjDoacao = scanner.nextLine();
+                		ong = arquivoDAO.buscarONGPorCNPJ(cnpjDoacao);
                     if ( ong != null) {
                         fazerDoacoes(scanner, mediator, ong, usuario);
                     } else {
-                        System.out.println("Por favor, registre um usuário e uma ONG primeiro!");
+                        System.out.println("Por favor, selecione uma ONG pare realizar a doação!");
                     }
                     break;
                 case 5:

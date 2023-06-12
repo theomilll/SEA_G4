@@ -7,3 +7,11 @@ Item: Mendigo
 Quantidade: 10
 Nome do doador: Henrique Leal
 
+Doação:
+Item: Mendigo
+Quantidade: 25
+
+Doação:
+Item: Cachorro
+Quantidade: 50
+
