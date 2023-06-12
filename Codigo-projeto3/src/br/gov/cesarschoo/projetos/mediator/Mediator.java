@@ -4,16 +4,21 @@ package br.gov.cesarschoo.projetos.mediator;
 import br.gov.cesarschool.projetos.DAO.*;
 import br.gov.cesarschool.projetos.doador.Doador;
 import br.gov.cesarschool.projetos.doador.ItemDoacao;
+import br.gov.cesarschool.projetos.necessidade.*;
 import br.gov.cesarschool.projetos.ong.ONG;
+import br.gov.cesarschool.projetos.usuario.*;
 import br.gov.cesarschool.projetos.util.ValidadorCNPJ;
 import br.gov.cesarschool.projetos.util.ValidadorCPF;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Mediator {
     private static Mediator instance;
     private DAO arquivoDAO;
 
     private Mediator() {
-        arquivoDAO = new DAO("diretorio/");
+        arquivoDAO = new DAO("SEA_");
     }
 
     public static Mediator getInstance() {
@@ -23,12 +28,6 @@ public class Mediator {
         return instance;
     }
 
-    public boolean incluirDoador(Doador doador) {
-        if (validarInformacoesDoador(doador)) {
-            return arquivoDAO.incluirDoador(doador);
-        }
-        return false;
-    }
 
     public boolean incluirONG(ONG ong) {
         if (validarInformacoesONG(ong)) {
@@ -38,11 +37,7 @@ public class Mediator {
     }
 
     private boolean validarInformacoesDoador(Doador doador) {
-        if (doador.getNome() == null || doador.getNome().isEmpty()) {
-            System.out.println("Nome do doador inválido.");
-            return false;
-        }
-
+    	validarInformacoesUsuario(doador);
         if (doador.getCPF() == null || doador.getCPF().isEmpty()) {
             System.out.println("CPF do doador inválido.");
             return false;
@@ -58,24 +53,20 @@ public class Mediator {
             return false;
         }
 
-        // Outras validações do doador
-        // ...
 
         return true;
     }
 
     private boolean validarInformacoesONG(ONG ong) {
-        if (ong.getNome() == null || ong.getNome().isEmpty()) {
-            System.out.println("Nome da ONG inválido.");
-            return false;
-        }
+        
+    	validarInformacoesUsuario(ong);
 
         if (ong.getCNPJ() == null || ong.getCNPJ().isEmpty()) {
-            System.out.println("CNPJ da ONG inválido.");
+            System.out.println("CNPJ da ONG branco ou nulo.");
             return false;
         }
         if (!ValidadorCNPJ.validarCNPJ(ong.getCNPJ())) {
-            System.out.println("CPF do doador inválido.");
+            System.out.println("CNPJ da ONG inválido.");
             return false;
         }
 
@@ -89,26 +80,58 @@ public class Mediator {
             return false;
         }
 
-        // Outras validações da ONG
-        // ...
 
         return true;
     }
-    
-    
-    
-    // em andamento
-    private boolean validarInformacoesDoacao(ItemDoacao doacao) {
-    	if(doacao.getItem() == null) {
-    		return false;
-    	}
-    	if(doacao.getQuantidade() <= 0) {
-    		return false;
-    	}
+    private boolean validarInformacoesUsuario(Usuario usuario) {
+    	  if (usuario.getNome() == null || usuario.getNome().isEmpty()) {
+              System.out.println("Nome do Usuário inválido.");
+              return false;
+          }
 
-        return true;
+          if (usuario.getEmail() == null || usuario.getEmail().isEmpty() ) {
+              System.out.println("Email do Usuário inválido.");
+              return false;
+          }
+
+          if (usuario.getTelefone() == null || usuario.getTelefone().isEmpty() ) {
+              System.out.println("Telefone do Usuário inválido.");
+              return false;
+          }
+
+          if (usuario.getId() < 0) {
+              System.out.println("Id do Usuário inválido.");
+              return false;
+          }
+          return true;
     }
     
+
+    private boolean validarInformacoesDoacao(ItemDoacao doacao, ONG ong) {
+        if (doacao.getItem() == null) {
+            System.out.println("Item da doação inválido.");
+            return false;
+        }
+        if (doacao.getQuantidade() <= 0) {
+            System.out.println("Quantidade da doação inválida.");
+            return false;
+        }
+
+        // Read needs from the file
+        String[] necessidadesArray = arquivoDAO.lerNecessidades(ong);
+
+        // Check if the doacao's item matches any category in the array
+        for (String categoria : necessidadesArray) {
+            if (doacao.getItem().equalsIgnoreCase(categoria)) {
+                return true;
+            }
+        }
+
+        System.out.println("Item da doação não corresponde a nenhuma necessidade.");
+        return false;
+    }
+
+
     
     
     
@@ -134,6 +157,24 @@ public class Mediator {
         	return false;
         }
     }
+    
+    
+    public boolean inserirDoacao(ItemDoacao doacao,ONG ong) {
+        if (validarInformacoesDoacao(doacao, ong)!= false) {
+        	arquivoDAO.incluirDoacao(ong,doacao);
+        	return true;
+        }
+        else {
+        	System.out.println("Erro ao incluir Doacao");
+        	return false;
+        }
+    }
+    
+    
+    public void inserirNecessidade(ONG ong, Necessidade necessidade) {
+        arquivoDAO.incluirNecessidade(ong, necessidade);
+    }
+    
     
     
 

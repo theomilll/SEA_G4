@@ -7,15 +7,13 @@ public abstract class Usuario {
 	private String email;
 	private String telefone;
 	private int id;
-	private String senha;
 	private Endereco endereco;
-	public Usuario(String nome, String email, String telefone, int id, String senha, Endereco endereco) {
+	public Usuario(String nome, String email, String telefone, int id,  Endereco endereco) {
 		super();
 		this.nome = nome;
 		this.email = email;
 		this.telefone = telefone;
 		this.id = id;
-		this.senha = senha;
 		this.endereco = endereco;
 	}
 	public String getNome() {
@@ -49,10 +47,5 @@ public abstract class Usuario {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getSenha() {
-		return senha;
-	}
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
 }
+

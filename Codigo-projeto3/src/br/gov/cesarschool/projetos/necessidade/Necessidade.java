@@ -1,23 +1,15 @@
 package br.gov.cesarschool.projetos.necessidade;
 
 public class Necessidade {
-    private String descricao;
     private int quantidade;
-    private CategoriaNecessidade categoria;
+    private String categoria;
 
-    public Necessidade(String descricao, int quantidade) {
-        this.descricao = descricao;
+    public Necessidade( int quantidade, String categoria) {
         this.quantidade = quantidade;
+        this.categoria = categoria;
     }
 
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
+  
     public int getQuantidade() {
         return quantidade;
     }
@@ -30,11 +22,11 @@ public class Necessidade {
         this.quantidade = novaQuantidade;
     }
 
-	public CategoriaNecessidade getCategoria() {
+	public String getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(CategoriaNecessidade categoria) {
+	public void setCategoria(String categoria) {
 		this.categoria = categoria;
 	}
 }

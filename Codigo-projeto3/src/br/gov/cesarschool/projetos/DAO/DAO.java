@@ -21,7 +21,7 @@ public class DAO {
     }
 
     public boolean incluirDoador(Doador doador) {
-        String nomeArquivo = diretorioBase + doador.getId() + ".txt";
+        String nomeArquivo = diretorioBase + doador.getNome() + ".txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo))) {
             writer.write("Nome: " + doador.getNome());
             writer.newLine();
@@ -30,8 +30,6 @@ public class DAO {
             writer.write("Telefone: " + doador.getTelefone());
             writer.newLine();
             writer.write("ID: " + doador.getId());
-            writer.newLine();
-            writer.write("Senha: " + doador.getSenha());
             writer.newLine();
             writer.write("CPF: " + doador.getCPF());
             writer.newLine();
@@ -46,7 +44,7 @@ public class DAO {
     }
 
     public boolean incluirONG(ONG ong) {
-        String nomeArquivo = diretorioBase + ong.getId() + ".txt";
+        String nomeArquivo = diretorioBase + ong.getNome() + ".txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo))) {
             writer.write("Nome: " + ong.getNome());
             writer.newLine();
@@ -62,6 +60,8 @@ public class DAO {
             writer.newLine();
             writer.write("Número de Voluntários: " + ong.getNumeroVoluntarios());
             writer.newLine();
+            writer.newLine();
+            writer.write("Necessidades:");
 
             return true;
         } catch (IOException e) {
@@ -71,7 +71,7 @@ public class DAO {
     }
     
     public boolean incluirDoacao(ONG ong, ItemDoacao itemDoacao) {
-        String nomeArquivo = diretorioBase + ong.getId() + "_doacoes.txt";
+        String nomeArquivo = diretorioBase + ong.getNome() + "_doacoes.txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo, true))) {
   
             writer.write("Doação:");
@@ -90,12 +90,10 @@ public class DAO {
     }
     
     public void incluirNecessidade(ONG ong, Necessidade necessidade) {
-        String nomeArquivo = diretorioBase + ong.getId() + ".txt";
+        String nomeArquivo = diretorioBase + ong.getNome() + ".txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo, true))) {
         	writer.newLine();
             writer.write("Categoria: " + necessidade.getCategoria());
-            writer.newLine();
-            writer.write("Descrição: " + necessidade.getDescricao());
             writer.newLine();
             writer.write("Quantidade: " + necessidade.getQuantidade());
             writer.newLine();
@@ -105,7 +103,7 @@ public class DAO {
     }
     
     public String[] lerNecessidades(ONG ong) {
-        String nomeArquivo = diretorioBase + ong.getId() + ".txt";
+        String nomeArquivo = diretorioBase + ong.getNome() + ".txt";
         List<String> necessidadesList = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(nomeArquivo))) {
@@ -114,10 +112,8 @@ public class DAO {
 
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("Categoria:")) {
-                    readNecessidades = true;
-                } else if (readNecessidades && line.startsWith("Quantidade:")) {
-                    String quantidade = line.substring(line.indexOf(":") + 1).trim();
-                    necessidadesList.add(quantidade);
+                    String categoria = line.substring(line.indexOf(":") + 1).trim();
+                    necessidadesList.add(categoria);
                 }
             }
         } catch (IOException e) {
@@ -127,6 +123,7 @@ public class DAO {
         String[] necessidadesArray = new String[necessidadesList.size()];
         return necessidadesList.toArray(necessidadesArray);
     }
+
 
 
     
