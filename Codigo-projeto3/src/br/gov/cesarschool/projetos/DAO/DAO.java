@@ -313,6 +313,48 @@ public class DAO {
                 e.printStackTrace();
             }
         }
+        
+        public void exibirNecessidades(ONG ong) {
+        String nomeArquivo = diretorioBase + ong.getCNPJ() + ".txt";
+        try (BufferedReader reader = new BufferedReader(new FileReader(nomeArquivo))) {
+            String line;
+            boolean readNecessidades = false;
+
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("Categoria:")) {
+                    String categoria = line.substring(line.indexOf(":") + 1).trim();
+                    System.out.println("Categoria: " + categoria);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void exibirDoacoes(ONG ong) {
+        String nomeArquivo = diretorioBase + ong.getCNPJ() + "_DOACOES.txt";
+        try (BufferedReader reader = new BufferedReader(new FileReader(nomeArquivo))) {
+            String line;
+            boolean readDoacoes = false;
+
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("Doação:")) {
+                    System.out.println("Doação:");
+                } else if (line.startsWith("Item:")) {
+                    String item = line.substring(line.indexOf(":") + 1).trim();
+                    System.out.println("Item: " + item);
+                } else if (line.startsWith("Quantidade:")) {
+                    String quantidade = line.substring(line.indexOf(":") + 1).trim();
+                    System.out.println("Quantidade: " + quantidade);
+                } else if (line.startsWith("Nome do doador:")) {
+                    String nomeDoador = line.substring(line.indexOf(":") + 1).trim();
+                    System.out.println("Nome do doador: " + nomeDoador);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
         return null; 
     }
