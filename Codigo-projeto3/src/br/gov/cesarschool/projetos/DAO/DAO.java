@@ -330,6 +330,10 @@ public class DAO {
                     String categoria = line.substring(line.indexOf(":") + 1).trim();
                     System.out.println("Categoria: " + categoria);
                 }
+                else if (line.startsWith("Quantidade:")) {
+                    String quantidade = line.substring(line.indexOf(":") + 1).trim();
+                    System.out.println("Quantidade: " + quantidade);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
