@@ -131,7 +131,6 @@ public class DAO {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(nomeArquivo))) {
             String line;
-            boolean readNecessidades = false;
 
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("Categoria:")) {
@@ -153,7 +152,6 @@ public class DAO {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(nomeArquivo))) {
             String line;
-            boolean readQuantidades = false;
 
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("Quantidade:")) {
@@ -323,12 +321,12 @@ public class DAO {
         String nomeArquivo = diretorioBase + ong.getCNPJ() + ".txt";
         try (BufferedReader reader = new BufferedReader(new FileReader(nomeArquivo))) {
             String line;
-            boolean readNecessidades = false;
+
 
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("Categoria:")) {
                     String categoria = line.substring(line.indexOf(":") + 1).trim();
-                    System.out.println("Categoria: " + categoria);
+                    System.out.println("\nCategoria: " + categoria);
                 }
                 else if (line.startsWith("Quantidade:")) {
                     String quantidade = line.substring(line.indexOf(":") + 1).trim();
@@ -344,14 +342,14 @@ public class DAO {
         String nomeArquivo = diretorioBase + ong.getCNPJ() + "_DOACOES.txt";
         try (BufferedReader reader = new BufferedReader(new FileReader(nomeArquivo))) {
             String line;
-            boolean readDoacoes = false;
+
 
             while ((line = reader.readLine()) != null) {
-                if (line.startsWith("Doação:")) {
+                if (line.startsWith("\nDoação:")) {
                     System.out.println("Doação:");
                 } else if (line.startsWith("Item:")) {
                     String item = line.substring(line.indexOf(":") + 1).trim();
-                    System.out.println("Item: " + item);
+                    System.out.println("\nItem: " + item);
                 } else if (line.startsWith("Quantidade:")) {
                     String quantidade = line.substring(line.indexOf(":") + 1).trim();
                     System.out.println("Quantidade: " + quantidade);

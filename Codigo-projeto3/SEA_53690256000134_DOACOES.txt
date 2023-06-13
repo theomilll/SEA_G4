@@ -1,0 +1,14 @@
+Doação:
+Item: Coleira
+Quantidade: 25
+Nome do doador: Theo Moura
+
+Doação:
+Item: Racao
+Quantidade: 5
+
+Doação:
+Item: Coleira
+Quantidade: 1
+Nome do doador: Theo Moura
+

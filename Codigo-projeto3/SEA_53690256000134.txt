@@ -1,0 +1,14 @@
+Nome: SOS Cachorros
+Email: sos@cachorros.com
+Telefone: 81988445522
+ID: 43
+CNPJ: 53690256000134
+Descrição: Ajudar o maximo de cachorros em situacao de rua e vulnerabilidade social
+Número de Voluntários: 15
+
+Necessidades:
+Categoria: Coleira
+Quantidade: 24
+
+Categoria: Racao
+Quantidade: 5

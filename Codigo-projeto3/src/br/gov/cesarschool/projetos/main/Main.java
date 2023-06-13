@@ -7,7 +7,7 @@ import br.gov.cesarschool.projetos.doador.Doador;
 import br.gov.cesarschool.projetos.necessidade.*;
 import br.gov.cesarschoo.projetos.mediator.Mediator;
 import br.gov.cesarschool.projetos.DAO.*;
-import br.gov.cesarschool.projetos.util.*;
+
 
 import java.util.Scanner;
 
@@ -23,6 +23,7 @@ public class Main {
 
         int opcao;
         do {
+        	System.out.println("\n");
             System.out.println("Menu:");
             System.out.println("1. Registrar Usuário");
             System.out.println("2. Registrar ONG");
