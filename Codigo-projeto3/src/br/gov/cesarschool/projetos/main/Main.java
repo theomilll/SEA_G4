@@ -156,9 +156,7 @@ public class Main {
         System.out.print("Número de telefone do usuário: ");
         String numeroTelefone = scanner.nextLine();
 
-        System.out.print("ID do usuário: ");
-        int id = scanner.nextInt();
-        scanner.nextLine(); // Limpar o buffer
+        int id = (numero % 50 * 17);
 
         System.out.print("CPF do usuário: ");
         String cpf = scanner.nextLine();
@@ -208,10 +206,8 @@ public class Main {
         System.out.print("Número de telefone da ONG: ");
         String numeroTelefone = scanner.nextLine();
 
-        System.out.print("ID da ONG: ");
-        int id = scanner.nextInt();
-        scanner.nextLine(); // Limpar o buffer
-
+        int id = (numero % 50 * 17);
+        
         System.out.print("CNPJ da ONG: ");
         String cnpj = scanner.nextLine();
 
